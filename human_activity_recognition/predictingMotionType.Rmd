@@ -1,0 +1,106 @@
+Predicting Motion Type
+========================================================
+
+# Executive Summary
+
+This report is bourne out of a data science course on Coursera.com through Johns Hopkins Univerity called Practical Machine Learning. The goal of the analysis is to create a prediction algorithm for the type of activity an individual is performing utilizing a set of human activity recognition data from the good folks at [Groupware]("http://www.groupwaretechnology.com/"). The five distinct activities are sitting, sitting down, standing, standing up, and walking. The data, with deeper explanation, can be found [here]("http://groupware.les.inf.puc-rio.br/har#dataset").
+
+Creating this prediction algorithm boiled down to 2 main challenges. First, cleaning the training dataset and selecting which features to use as part of the algorithm (the original set contained >19,000 obs and >190 features). Second, understanding and tuning the dozens of options available for the best machine learning algorithm.
+
+This report details the method of data cleaning and feature selection and ultimitely utilizes a random forest algorithm. The final model has 500 trees, an out of bag error rate of 2.56% (awesome), and the accuracy on a partitioned test set is 97.26% (again, awesome). Since this is not a perfect model for prediction, the end of this report will discuss possibilities for improvement.
+
+# Reading and Exploring the Data
+
+Exploring unfamiliar data is a journey. This journey begins with basic 'what does this data look like' questions.
+
+```{r results ='hide'}
+# download and read the data
+trainURL <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+testURL <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+download.file(trainURL, destfile = "trainingData.csv", method = "curl")
+download.file(testURL, destfile = "testingData.csv", method = "curl")
+trainingData <- read.csv("trainingData.csv", header=TRUE, na.string = c("#DIV/0!"))
+testingData <- read.csv("testingData.csv", header=TRUE, na.strings = c("#DIV/0!"))
+
+# explore the data structure and prescense of missing values
+str(trainingData); str(testingData)
+summary(trainingData); summary(testingData)
+```
+
+Pretty inconsistent data. There are many columns with nothing but NA's. In order to clean that up, we can turns all values into numeric (thereby coercing NA's for the emptry columns) in order to select only the columns where the sum of NA values is equal to zero. Note that this took this author hours to figure out since we read in the "#DIV/0!" values as strings that read "NA" rather than NA values. Nonetheless. We also remove the metadata columns (1-7) since they will not help our machine learn.
+
+```{r results = 'hide'}
+# convert all values to numeric
+for (i in c(8:ncol(trainingData)-1)) {trainingData[,i] = as.numeric(as.character(trainingData[,i]))}
+for (i in c(8:ncol(testingData)-1)) {testingData[,i] = as.numeric(as.character(testingData[,i]))}
+
+# identify the features to use for the model and subset the training data into a model data train and test set for cross validation
+modelFeatures <- colnames(trainingData[colSums(is.na(trainingData)) == 0])[-(1:7)]
+modelDataset <- trainingData[modelFeatures]
+```
+
+# Building the Model
+
+The data should be good enough to build a prediction model. There are 52 features, 19,622 observations, and the prediction variable is 'classe'. So, which model? We tried a variety --- started with random forest, then a Naive Bayes, and a gradient boosting model. A few key drivers influenced my decision to use random forest as the final model. 
+
+First, it is my understanding that the Naive Bayes works best with large datasets. Even though the modelDataset has 19,622 observations it was only from four people so it might not be representative of the entire population. Second, I chose simplicity over complexity when deciding that a single decision tree would be easier to describe and explain than the ensemble of decison trees known as gradient boosting. Hence, we use a random forest model. The process looked like this:
+
+```{r}
+# read in caret library
+library(caret)
+
+# partition the training data between training and test set
+set.seed(2222)
+inTrain <- createDataPartition(y=modelDataset$classe, p=0.7, list=FALSE)
+train <- modelDataset[inTrain,]
+test <- modelDataset[-inTrain,]
+
+# generate the model
+model <- train(classe ~., preProcess = 'pca', method = "rf", data = train, importance = TRUE)
+```
+
+I partitioned the training set into a sub training set and testing set to understand my in sample error rate. For the most part, the default settings of the train function in caret have been used, except in order to reduce variables with similar effect, I used principle components analysis. Using this simple cross validation method (70% of training data in train subset and 30% in test subset) shows that the final model is 95% accurate on the testing set. *Of course, the random forest method has it's own internal cross validation method so using hte word 'simple' might have been misleading...
+
+```{r}
+print(model$finalModel)
+confusionMatrix(test$classe, predict(model, newdata = test))
+```
+
+# Visualizing Model Results
+
+In order to see the model in action, we use base plot in r and a variable importance graph.
+
+```{r}
+# simple r plot
+plot(model)
+
+# Variable Importance
+print(plot(varImp(model, scale = FALSE)))
+```
+
+# Submitting Model Predictions
+
+Lastly, the model needs to be used to predict 'classe' on our original testingDataset and prepared for submission to the Coursere website.
+
+```{r}
+answers = predict(model, newdata = testingData)
+
+pml_write_files = function(x){
+  n = length(x)
+  for(i in 1:n){
+    filename = paste0("problem_id_",i,".txt")
+    write.table(x[i],file=filename,quote=FALSE,row.names=FALSE,col.names=FALSE)
+  }
+}
+
+pml_write_files(answers)
+```
+
+# Conclusion
+
+This report analyzed a set of data with 5 classes (sitting-down, standing-up, standing, walking, and sitting) collected on 8 hours of activities of 4 healthy subjects. After cleaning the data, a random forest prediction model was built in order to predict which class the individual was performing. This model achieved an in sample accuracy rate of 97.25% and on the sumbmission to the course testingData it was 100% accurate (20 correct answers). 
+
+Further work on this model should include tweaking model parameters to increase the out of sample accuracy rate. It would also be wise to use a better processor for building and testing model options as this was a huge headache and timesuck for the author of this report. 
+
+
+
