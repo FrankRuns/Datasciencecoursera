@@ -1,4 +1,4 @@
 datasciencecoursera
 ===================
 
-repo creation for data science assignment
+Repository for all projects done in the Data Science Specialization through Johns Hopkins University via Coursera.
