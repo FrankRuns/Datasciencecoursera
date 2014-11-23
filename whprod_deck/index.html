@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tracking Warehouse Productivity</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Tracking Warehouse Productivity">
+  <meta name="author" content="Frank Corrigan">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Tracking Warehouse Productivity</h1>
+    <h2>Understanding Account Level Efficiency</h2>
+    <p>Frank Corrigan<br/>Data Products Develpment Manager</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Purpose</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>60% of warehouse costs are attributable to labor.</li>
+<li>Tracking labor productivity is crucial to the growth of a wareouhouse business.</li>
+<li>A user friendly application to track and understand account level labor efficieny in a warehouse will improve bottom line for any distribution center.</li>
+<li>This application delivers daily productivity measures for a hypothetical 3rd party logistics (3PL) company specializing in fashion apparel.</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="closed" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The back data for this application is stored in a google spreadsheet and is updated daily by account supervisors. For each task they are required to record both the number of items processed for that task and the manhours attributed to that task. A few examples of a task are:</p>
+
+<ul>
+<li>Receive Cartons</li>
+<li>Putaway Pallets</li>
+<li>Pick Unit</li>
+<li>Ship Cartons</li>
+</ul>
+
+<p>The blended labor productivity rate (uph) is calculated (manhours) / (quantity processed).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="closed" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>The Application</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe style="height:500px" src="https://frankruns.shinyapps.io/whprod/"></iframe> 
+
+<p>This application lives <a href="%22https://frankruns.shinyapps.io/whprod/%22">here</a>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="closed" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Benefits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Most 3PLs track labor productivty with an end of the month excel or pdf report. This is stale data and if a potential problem has been brewing in the warehouse, it might be too late to resolve without major consequences.</p>
+
+<p>Putting daily productivity data in the hands of the company executives (and warehouse managers) gives them timely insight into warehouse operations and ultimitely insight into the health of the bottom line.</p>
+
+<p>Additionally, analyzing account level productivity will allow managers to identfy accounts that are permorming successfully and accounts that are performing poorly. To that end, it is a opportunity for company wide improvement in performance.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="closed" id="slide-5" style="background:;">
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Purpose'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The Application'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Benefits'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title=''>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
