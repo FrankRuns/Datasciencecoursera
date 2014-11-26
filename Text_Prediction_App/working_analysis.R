@@ -66,3 +66,7 @@ getTwo <- function(typeOneWord){
       phrase <- grep(paste0("^", typeOneWord), rownames(twoSum), value = TRUE)[1]
       return (phrase)     
 }
+
+# testing writing ngram table and re-reading back into R
+write.table(fourSum, file="fourGrams")
+fourGrams <- read.table("fourGrams", skip = 1)
