@@ -37,17 +37,20 @@ options(mc.cores=1)
 
 # declare 4-gram, 3-gram, 2-gram tokenizers using RWeka
 require(RWeka)
+fiveGramizer <- function(x) NGramTokenizer(x, Weka_control(min=5, max=5))
 fourGramizer <- function(x) NGramTokenizer(x, Weka_control(min=4, max=4))
 threeGramizer <- function(x) NGramTokenizer(x, Weka_control(min=3, max=3))
 twoGramizer <- function(x) NGramTokenizer(x, Weka_control(min=2, max=2))
 
 # create term document matrices
+tdmFive <- TermDocumentMatrix(korpus, control=list(tokenize=fiveGramizer))
 tdmFour <- TermDocumentMatrix(korpus, control=list(tokenize=fourGramizer))
 tdmThree <- TermDocumentMatrix(korpus, control=list(tokenize=threeGramizer))
 tdmTwo <- TermDocumentMatrix(korpus, control=list(tokenize=twoGramizer))
 
 # calc and save row sums with slam's row_sums
 library(slam)
+fiveSum <- as.data.frame(sort(row_sums(tdmFive), decreasing=TRUE))
 fourSum <- as.data.frame(sort(row_sums(tdmFour), decreasing=TRUE))
 threeSum <- as.data.frame(sort(row_sums(tdmThree), decreasing=TRUE))
 twoSum <- as.data.frame(sort(row_sums(tdmTwo), decreasing=TRUE))
@@ -55,8 +58,16 @@ twoSum <- as.data.frame(sort(row_sums(tdmTwo), decreasing=TRUE))
 finder <- function(text){
       # how many letters in string?
       nWords <- length(unlist(strsplit(text, " ")))
-      # if (nWords >= 5) getFifth(text)
-      
+      # if nWords is > 4, take only the last four words
+      if (nWords > 4) {
+            start <- length(unlist(strsplit(text, " "))) - 3
+            end <- length(unlist(strsplit(text, " ")))
+            text <- toString(unlist(strsplit(text, " "))[start:end])
+            text <- gsub(",", "", text)
+            outcome <- getFifth(text)
+      }
+      # if (nWords = 4) getFifth(text)
+      if (nWords == 4) {outcome <- getFifth(text) }
       # if (nWords == 3) getFourth(text)
       if (nWords == 3) {outcome <- getFourth(text) }
       # if (nWords == 2) getThird(text)
@@ -78,11 +89,32 @@ getThird <- function(text){
       if (is.na(outcome)){
             outcome <- getSecond(unlist(strsplit(text, " "))[2])
       }      
+      if (is.na(outcome)){
+            outcome <- "i'm failing to predict a next word because your level of intelligence is intimidating me"
+      }
       return (outcome)
 }
 
 getFourth <- function(text){
       outcome <- grep(paste0("^", text), rownames(fourSum), value=TRUE)[1]
+      if (is.na(outcome)){
+            outcome <- getThird(paste(unlist(strsplit(text, " "))[2], unlist(strsplit(text, " "))[3], ""))
+      }
+      if (is.na(outcome)){
+            outcome <- getSecond(unlist(strsplit(text, " "))[3])
+      }
+      if (is.na(outcome)){
+            outcome <- "i'm failing to predict a next word because you're good looks are distracting me"
+      }
+      # test "at the funnest"
+      return (outcome)
+}
+
+getFifth <- function(text){
+      outcome <- grep(paste0("^", text), rownames(fiveSum), value=TRUE)[1]
+      if (is.na(outcome)){
+            outcome <- getFourth(paste(unlist(strsplit(text, " "))[2], unlist(strsplit(text, " "))[3], unlist(strsplit(text, " "))[4], ""))
+      }
       if (is.na(outcome)){
             outcome <- getThird(paste(unlist(strsplit(text, " "))[2], unlist(strsplit(text, " "))[3], ""))
       }
