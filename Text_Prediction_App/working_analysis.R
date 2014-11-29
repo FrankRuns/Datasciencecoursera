@@ -4,21 +4,21 @@ setwd("/Users/frankCorrigan/Desktop/en_US/")
 newsfile <- "en_US.news.txt"
 lineCount <- length(readLines(newsfile))
 con <- file(newsfile, "r")
-news <- readLines(con, lineCount*0.01)
+news <- readLines(con, lineCount*0.001)
 close(con)
 
 # read blogs file
 blogsfile <- "en_US.blogs.txt"
 lineCount <- length(readLines(blogsfile))
 con <- file(blogsfile, "r")
-blogs <- readLines(con, lineCount*0.01)
+blogs <- readLines(con, lineCount*0.001)
 close(con)
 
 # read twitter file
 twitterfile <- "en_US.twitter.txt"
 lineCount <- length(readLines(twitterfile))
 con <- file(twitterfile, "r")
-tweets <- readLines(con, lineCount*0.01)
+tweets <- readLines(con, lineCount*0.001)
 close(con)
 
 setwd("/Users/frankCorrigan/Datasciencecoursera/Text_Prediction_App/")
@@ -52,21 +52,54 @@ fourSum <- as.data.frame(sort(row_sums(tdmFour), decreasing=TRUE))
 threeSum <- as.data.frame(sort(row_sums(tdmThree), decreasing=TRUE))
 twoSum <- as.data.frame(sort(row_sums(tdmTwo), decreasing=TRUE))
 
-getFourth <- function(typeThreeWords){
-      phrase <- grep(paste0("^", typeThreeWords), rownames(fourSum), value = TRUE)[1]
-      return (phrase)
+finder <- function(text){
+      # how many letters in string?
+      nWords <- length(unlist(strsplit(text, " ")))
+      # if (nWords >= 5) getFifth(text)
+      
+      # if (nWords == 3) getFourth(text)
+      if (nWords == 3) {outcome <- getFourth(text) }
+      # if (nWords == 2) getThird(text)
+      if (nWords == 2) { outcome <- getThird(text) }
+      # if there is 1 word run the getSecond function
+      if (nWords == 1) { outcome <- getSecond(text) }
+      return (outcome)
 }
 
-getThird <- function(typeTwoWords){
-      phrase <- grep(paste0("^", typeTwoWords), rownames(threeSum), value = TRUE)[1]
-      return (phrase)    
+getSecond <- function(text){
+      outcome <- grep(paste0("^", text), rownames(twoSum), value=TRUE)[1]
+      return (outcome)
 }
 
-getTwo <- function(typeOneWord){
-      phrase <- grep(paste0("^", typeOneWord), rownames(twoSum), value = TRUE)[1]
-      return (phrase)     
+getThird <- function(text){
+      # test is "a lot"
+      outcome <- grep(paste0("^", text), rownames(threeSum), value=TRUE)[1]
+      # test is "going fast"
+      if (is.na(outcome)){
+            outcome <- getSecond(unlist(strsplit(text, " "))[2])
+      }      
+      return (outcome)
 }
 
-# testing writing ngram table and re-reading back into R
+getFourth <- function(text){
+      outcome <- grep(paste0("^", text), rownames(fourSum), value=TRUE)[1]
+      if (is.na(outcome)){
+            outcome <- getThird(paste(unlist(strsplit(text, " "))[2], unlist(strsplit(text, " "))[3], ""))
+      }
+      if (is.na(outcome)){
+            outcome <- getSecond(unlist(strsplit(text, " "))[3])
+      }
+      if (is.na(outcome)){
+            outcome <- "i'm failing to predict a next word because you're good looks are distracting me"
+      }
+      # test "at the funnest"
+      return (outcome)
+}
+
 write.table(fourSum, file="fourGrams")
-fourGrams <- read.table("fourGrams", skip = 1)
+# fourGrams <- read.table("fourGrams", skip = 1)
+write.table(threeSum, file="threeGrams")
+# threeGrams <- read.table("threeGrams", skip = 1)
+write.table(twoSum, file="twoGrams")
+# twoGrams <- read.table("twoGrams", skip = 1)
+
