@@ -6,7 +6,7 @@ shinyUI(fluidPage(
       
       sidebarLayout(
             sidebarPanel(
-                  textInput("text", "Enter phrase here:", "haven't seen you since last"),
+                  textInput("text", "Enter phrase here:", "cool to be the"),
                   submitButton("Predict Next Word", icon = NULL)
             ),
             
