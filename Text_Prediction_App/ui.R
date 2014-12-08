@@ -14,8 +14,8 @@ shinyUI(fluidPage(
                   h4("You wrote..."),
                   textOutput("userText"),
                   
-                  h4("The next word prediction is..."),
-                  plotOutput("wordPlot"),
+                  #h4("The next word prediction is...")
+                  plotOutput("wordPlot")
                   
             )
       )
