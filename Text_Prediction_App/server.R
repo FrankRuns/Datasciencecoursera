@@ -19,7 +19,7 @@ shinyServer(function(input, output) {
             finder(gsub("[[:punct:]]", "", tolower(input$text)))
       })
       
-      output$fullPhrase <- renderText({
-            paste(input$text, finder(gsub("[[:punct:]]", "", tolower(input$text))))
-      })
+      #output$fullPhrase <- renderText({
+      #      paste(input$text, finder(gsub("[[:punct:]]", "", tolower(input$text))))
+      #})
 })

@@ -13,10 +13,10 @@ shinyUI(fluidPage(
             mainPanel(
                   h4("You wrote..."),
                   textOutput("userText"),
+                  
                   h4("The next word prediction is..."),
-                  textOutput("prediction"),
-                  h4("And the full predicted phrase..."),
-                  textOutput("fullPhrase")
+                  plotOutput("wordPlot"),
+                  
             )
       )
 ))

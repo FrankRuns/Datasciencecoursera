@@ -74,62 +74,63 @@ names(fiveDF) <- c("words", "count")
 fiveDF <- subset(fiveDF, fiveDF$count > 1)
 fiveDF <- fiveDF[order(-fiveDF$count),]
 
-find5 <- function(fourwords) {
-      nxt <- splitUnlist(grep(paste0("^", fourwords), fiveDF$words, value=TRUE))[5]
-      if (is.null(nxt)) {
-            nxt <- "i dont know" 
-            # nxt <- find4(paste(splitUnlist(input)[2:4], collapse=" "))
+f5 <- function(text) {
+      tdf <- data.frame(phr = fiveDF[grep(paste0("^", text, " "), fiveDF$words), 1], 
+                        cnt = fiveDF[grep(paste0("^", text, " "), fiveDF$words), 2], 
+                        stringsAsFactors=FALSE)
+      for (i in 1:length(tdf$phr)) {
+            tdf$phr[i] <- splitUnlist(tdf$phr[i])[5]
       }
-      return (nxt)
+      if (length(tdf$phr > 10)) {
+            tdf <- head(tdf, n=10)
+      }
+      barplot(tdf$cnt, names.arg=c(tdf$phr), main=paste0("'", text, "...'"), ylab="Frequency")
+      return (tdf)
 }
 
-# FOUR
+# FOUR FOUR FOUR FOUR FOUR FOUR FOUR FOUR FOUR FOUR
 
 fourDF <- as.data.frame(fourGT, stringsAsFactors=FALSE)
 names(fourDF) <- c("words", "count")
 fourDF <- subset(fourDF, fourDF$count > 1)
 fourDF <- fourDF[order(-fourDF$count),]
 
-find4 <- function(threewords) {
-      nxt <- splitUnlist(grep(paste0("^", threewords), fourDF$words, value=TRUE))[4]
-      if (is.null(nxt)) {
-            nxt <- "i dont know"
-            # nxt <- find3(paste(splitUnlist(input)[3:4], collapse=" "))
+f4 <- function(text) {
+      tdf <- data.frame(phr = fourDF[grep(paste0("^", text, " "), fourDF$words), 1], 
+                        cnt = fourDF[grep(paste0("^", text, " "), fourDF$words), 2], 
+                        stringsAsFactors=FALSE)
+      for (i in 1:length(tdf$phr)) {
+            tdf$phr[i] <- splitUnlist(tdf$phr[i])[4]
       }
-      return (nxt)
+      if (length(tdf$phr > 10)) {
+            tdf <- head(tdf, n=10)
+      }
+      barplot(tdf$cnt, names.arg=c(tdf$phr), main=paste0("'", text, "...'"), ylab="Frequency")
+      return (tdf)
 }
 
-# THREE
+# THREE THREE THREE THREE THREE THREE THREE
 
 threeDF <- as.data.frame(threeGT, stringsAsFactors=FALSE)
 names(threeDF) <- c("words", "count")
 threeDF <- subset(threeDF, threeDF$count > 1)
 threeDF <- threeDF[order(-threeDF$count),]
 
-#find3 <- function(twowords) {
-#      nxt <- splitUnlist(grep(paste0("^", twowords), threeDF$words, value=TRUE))[1:3]
-#      if (is.null(nxt)) {
-#            nxt <- 'i dont know'
-#            # nxt <- find2(paste(splitUnlist(input)[4], collapse=" "))
-#      }
-#      return (nxt)
-#}
-
-find3 <- function(twowords) {
-      long <- length(grep(paste0("^", twowords), threeDF$words))
-      nxt <- grep(paste0("^", twowords), threeDF$words, value=TRUE)[1:long]
-      for (i in 1:long) {
-            nxt[i] <- splitUnlist(nxt[i])[3]
+f3 <- function(text) {
+      tdf <- data.frame(phr = threeDF[grep(paste0("^", text, " "), threeDF$words), 1], 
+                        cnt = threeDF[grep(paste0("^", text, " "), threeDF$words), 2], 
+                        stringsAsFactors=FALSE)
+      for (i in 1:length(tdf$phr)) {
+            tdf$phr[i] <- splitUnlist(tdf$phr[i])[3]
       }
-      # if (is.null(nxt)) {
-            # nxt <- 'i dont know'
-            # nxt <- find2(paste(splitUnlist(input)[4], collapse=" "))
-      # }
-      nxt <- nxt[!is.na(nxt)]
-      return (nxt)
+      if (length(tdf$phr > 10)) {
+            tdf <- head(tdf, n=10)
+      }
+      barplot(tdf$cnt, names.arg=c(tdf$phr), main=paste0("'", text, "...'"), ylab="Frequency")
+      return (tdf)
 }
 
-# TWO
+# TWO TWO TWO TWO TWO TWO TWO TWO TWO TWO TWO
 
 twoDF <- as.data.frame(twoGT, stringsAsFactors=FALSE)
 names(twoDF) <- c("words", "count")
@@ -137,21 +138,41 @@ twoDF <- subset(twoDF, twoDF$count > 1)
 twoDF <- twoDF[-c(grep("^a ", twoDF$words)),]
 twoDF <- twoDF[order(-twoDF$count),]
 
-find2 <- function(oneword) {
-      nxt <- splitUnlist(grep(paste0("^", oneword), twoDF$words, value=TRUE))[2]
-      if (is.null(nxt)) {
-            nxt <- "i dont know"
+f2 <- function(text) {
+      tdf <- data.frame(phr = twoDF[grep(paste0("^", text, " "), twoDF$words), 1], 
+                        cnt = twoDF[grep(paste0("^", text, " "), twoDF$words), 2], 
+                        stringsAsFactors=FALSE)
+      for (i in 1:length(tdf$phr)) {
+            tdf$phr[i] <- splitUnlist(tdf$phr[i])[2]
       }
-      return (nxt)
+      if (length(tdf$phr > 10)) {
+            tdf <- head(tdf, n=10)
+      }
+      barplot(tdf$cnt, names.arg=c(tdf$phr), main=paste0("'", text, "...'"), ylab="Frequency")
+      return (tdf)
 }
 
-quicktest <- function(input) {
-      phive <- find5(input)
-      phour <- find4(paste(splitUnlist(input)[2:4], collapse=" "))
-      tree <- find3(paste(splitUnlist(input)[3:4], collapse=" "))
-      too <- find2(paste(splitUnlist(input)[4], collapse=" "))   
-      return (paste(phive, phour, tree, too, sep=","))
+findit <- function(text) {
+      nWords <- length(splitUnlist(text))
+      if (nWords > 4) {
+            text <- paste(tail(splitUnlist(text), n=4), collapse=" ")
+            nextWords <- f5(text) 
+      }
+      if (nWords == 4) {
+            nextWords <- f5(text)
+      }
+      if (nWords == 3) {
+            nextWords <- f4(text)
+      }
+      if (nWords == 2) {
+            nextWords <- f3(text)
+      }
+      if (nWords == 1) {
+            nextWords <- f2(text)
+      }
+      return (nextWords)
 }
+
 
 finder <- function(text) {
       nWords <- length(splitUnlist(text))
@@ -208,3 +229,81 @@ write.table(twoDF, file="twoGrams")
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+find3 <- function(twowords) {
+      long <- length(grep(paste0("^", twowords, " "), threeDF$words))
+      nxt <- grep(paste0("^", twowords), threeDF$words, value=TRUE)[1:long]
+      for (i in 1:long) {
+            nxt[i] <- splitUnlist(nxt[i])[3]
+      }
+      # if (is.null(nxt)) {
+      # nxt <- 'i dont know'
+      # nxt <- find2(paste(splitUnlist(input)[4], collapse=" "))
+      # }
+      nxt <- nxt[!is.na(nxt)]
+      return (nxt)
+}
+
+#find3 <- function(twowords) {
+#      nxt <- splitUnlist(grep(paste0("^", twowords), threeDF$words, value=TRUE))[1:3]
+#      if (is.null(nxt)) {
+#            nxt <- 'i dont know'
+#            # nxt <- find2(paste(splitUnlist(input)[4], collapse=" "))
+#      }
+#      return (nxt)
+#}
+
+
+find2 <- function(oneword) {
+      nxt <- splitUnlist(grep(paste0("^", oneword), twoDF$words, value=TRUE))[2]
+      if (is.null(nxt)) {
+            nxt <- "i dont know"
+      }
+      return (nxt)
+}
+
+
+quicktest <- function(input) {
+      phive <- find5(input)
+      phour <- find4(paste(splitUnlist(input)[2:4], collapse=" "))
+      tree <- find3(paste(splitUnlist(input)[3:4], collapse=" "))
+      too <- find2(paste(splitUnlist(input)[4], collapse=" "))   
+      return (paste(phive, phour, tree, too, sep=","))
+}
+
+
+find4 <- function(threewords) {
+      nxt <- splitUnlist(grep(paste0("^", threewords), fourDF$words, value=TRUE))[4]
+      if (is.null(nxt)) {
+            nxt <- "i dont know"
+            # nxt <- find3(paste(splitUnlist(input)[3:4], collapse=" "))
+      }
+      return (nxt)
+}
+
+
+find5 <- function(fourwords) {
+      nxt <- splitUnlist(grep(paste0("^", fourwords), fiveDF$words, value=TRUE))[5]
+      if (is.null(nxt)) {
+            nxt <- "i dont know" 
+            # nxt <- find4(paste(splitUnlist(input)[2:4], collapse=" "))
+      }
+      return (nxt)
+}
