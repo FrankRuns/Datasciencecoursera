@@ -1,0 +1,391 @@
+above31 <- data[data$Ozone > 31, ]
+head(above31)
+above31
+data
+cleanData <- complete.cases(data)
+cleanData
+data$Ozone
+above31 <- data[data$Ozone>31,]
+above31
+subset <- data$Ozone > 31 & data$temp > 90
+subset
+subset <- data[data$Ozone > 31 & data$temp > 90]
+subset
+subset <- data[data$Ozone > 31 & data$temp > 90,]
+subset
+data
+names(data)
+subset <- data[data$Ozone > 31 & data$Temp > 90, ]
+subset
+mean(subset$Solar.R)
+data.ozone <- subset(data, Ozone > 31)
+data.temp <- subset(data, Temp > 90)
+data.both <- subset(data, Ozone > 31 & Temp > 90)
+data.both
+mean(data.both$Solar.R)
+data.subset <- subset(data, Month == 6)
+mean(data.subset$Temp)
+data.subset <- subset(data, Month == 5)
+max(data.subset$Ozone)
+max(data.subset$Ozone, is.na=TRUE)
+?max
+max(data.Ozone, is.na=TRUE)
+max(data$Ozone, is.na=TRUE)
+max(data$Ozone, is.na=FALSE)
+max(data$Month, is.na=FALSE)
+max(data$Month, is.na=TRUE)
+max(data$Ozone, is.na=TRUE)
+data$Ozone
+data.may <- subset(data, Month == 5)
+data.may
+max(data.may, rm.na=TRUE)
+max(data.may$Ozone, rm.na=TRUE)
+bad <- is.na(data.may$Ozone)
+bad
+max(data.may$Ozone)
+debug(ls)
+ls()
+n
+library(caret)
+library(kernlab)
+data(spam)
+inTrain <- createDataPertition(y=spam$type, p=0.75, list=FALSE)
+inTrain <- createDataPartition(y=spam$type, p=0.75, list=FALSE)
+class(inTrain)
+head(inTrain)
+dim(inTrain)
+inTrain[10,]
+inTrain[1:10,]
+dim(spam)
+3451/4601
+training <- spam[inTrain,]
+test <- spam[-inTrain,]
+class(training)
+str(training)
+folds <- createFolds(y=spam$type, k=10, list=TRUE, returnTrain=TRUE)
+sapply(folds, length)
+library(AppliedPredictiveModeling)#
+library(caret)#
+data(AlzheimerDisease)
+install.packages("AppliedPredictiveModeling")
+library(AppliedPredictiveModeling)
+data(AlzheimerDisease)
+adData = data.frame(diagnosis,predictors)#
+trainIndex = createDataPartition(diagnosis, p = 0.50,list=FALSE)#
+training = adData[trainIndex,]#
+testing = adData[-trainIndex,]
+dim(training)
+dim(testing)
+adData = data.frame(diagnosis,predictors)#
+trainIndex = createDataPartition(diagnosis,p=0.5,list=FALSE)#
+training = adData[trainIndex,]#
+testing = adData[trainIndex,]
+dim(training)
+dim(testing)
+adData = data.frame(diagnosis,predictors)#
+trainIndex = createDataPartition(diagnosis, p = 0.50)#
+training = adData[trainIndex,]#
+testing = adData[-trainIndex,]
+library(AppliedPredictiveModeling)
+data(concrete)
+library(caret)
+set.seed(975)
+inTrain <- createDataPartition(mixtures$compressiveStrngth, p=0.75)[[1]]
+inTrain <- createDataPartition(mixtures$CompressiveStrngth, p=0.75)[[1]]
+inTrain <- createDataPartition(mixtures$CompressiveStrength, p=0.75)[[1]]
+data(mtcars)
+head(mtcars)
+library(caret)
+T <- nearZeroVar(mtcars, saveMetrics=TRUE)
+T
+library(ElemStatLearn)#
+data(SAheart)#
+set.seed(8484)#
+train = sample(1:dim(SAheart)[1],size=dim(SAheart)[1]/2,replace=F)#
+trainSA = SAheart[train,]#
+testSA = SAheart[-train,]
+str(trainSA)
+set.seed(13234)
+library(caret)
+model <- train(chd ~ age + alcohol + obesity + tobacco + typea + ldl, method = "glm", family = "binomial", data = trainSA)
+missClass = function(values,prediction){sum(((prediction > 0.5)*1) != values)/length(values)}
+missClass
+missClass(model)
+prediction <- predict(model, newdata = testSA$chd)
+trainSA$age
+testSA$age
+print(model)
+prediction <- predict(model, newdata = testSA)
+missClass(model)
+missClass(model, prediction)
+missClass(testSA$chd, prediction)
+library(ElemStatLearn)#
+data(vowel.train)#
+data(vowel.test)
+head(vowel.train)
+train <- vowel.train
+test <- vowel.test
+train$y <- as.factor(train$y)
+test$y <- as.factor(test$y)
+set.seed(338833)
+?caret
+?train
+model <- train(y ~ ., method = "rf", data = train)
+varImp(model)
+rm(list-ls())
+rm(list=ls())
+library(ElemStatLearn)#
+data(vowel.train)#
+data(vowel.test)
+vowel.train$y <- as.factor(vowel.train$y)
+str(vowel.train)
+vowel.test$y <- as.factor(vowel.test$y)
+vowel.test$y
+set.seed(338833)
+set.seed(33833)
+model <- train(y ~ ., method = "rf", data = vowel.train)
+varImp(model)
+model$finalModel$importance
+set.seed(125)
+model <- train(y ~ ., method = "rf", data = vowel.train)
+varImp(model)
+setwd("/Users/frankCorrigan/Desktop/en_US/")#
+#
+# read news file#
+newsfile <- "en_US.news.txt"#
+# lineCount <- length(readLines(newsfile))#
+lineCount <- 1010242#
+con <- file(newsfile, "r")#
+news <- readLines(con, lineCount*0.001)#
+close(con)#
+#
+# read blogs file#
+blogsfile <- "en_US.blogs.txt"#
+# lineCount <- length(readLines(blogsfile))#
+lineCount <- 899288#
+con <- file(blogsfile, "r")#
+blogs <- readLines(con, lineCount*0.001)#
+close(con)#
+#
+# read twitter file#
+twitterfile <- "en_US.twitter.txt"#
+# lineCount <- length(readLines(twitterfile))#
+lineCount <- 2360148#
+con <- file(twitterfile, "r")#
+tweets <- readLines(con, lineCount*0.001)#
+close(con)#
+#
+setwd("/Users/frankCorrigan/Datasciencecoursera/Text_Prediction_App/")#
+#
+# combine all lines into 1 character vector#
+allLines <- c(news, blogs, tweets)#
+#
+# turn everything to lower case and remove punctuaion and numbers#
+allLines <- gsub("[[:digit:]]", "", allLines)#
+allLines <- gsub("([[:punct:]])", "", tolower(allLines))#
+#
+# helper function to split a string by space and convert to character from list#
+splitUnlist <- function(text){#
+      return (unlist(strsplit(text, " ")))#
+}#
+#
+# use remove white space#
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)#
+allLines <- trim(allLines)#
+#
+for (i in 1:length(allLines)) {#
+      su <- splitUnlist(allLines[i])#
+      su <- su[su != ""]#
+      allLines[i] <- paste(su, collapse = " ")#
+}
+library(stylo)
+allWords <- unlist(strsplit(allLines, " "))
+ls()
+rm(allLines)
+rm(blogs)
+rm(news, twitter)
+rm(news, tweets)
+rm(news)
+rm(tweets)
+ls()
+rm(twitterfile, su, lineCount, i, con, newsfile)
+ls()
+rm(blogsfile)
+ls()
+fiveGrams <- make.ngrams(allWords, 5)
+head(fiveGrams)
+fourGrams <- make.ngrams(allWords, 4)#
+threeGrams <- make.ngrams(allWords, 3)#
+twoGrams <- make.ngrams(allWords, 2)
+fiveGT <- table(fiveGrams)#
+fourGT <- table(fourGrams)#
+threeGT <- table(threeGrams)#
+twoGT <- table(twoGrams)
+fiveDF <- as.data.frame(fiveGT, stringsAsFactors=FALSE)#
+names(fiveDF) <- c("words", "count")#
+fiveDF <- subset(fiveDF, fiveDF$count > 1)#
+fiveDF <- fiveDF[order(-fiveDF$count),]#
+#
+# FOUR FOUR FOUR FOUR FOUR FOUR FOUR FOUR FOUR FOUR#
+#
+fourDF <- as.data.frame(fourGT, stringsAsFactors=FALSE)#
+names(fourDF) <- c("words", "count")#
+fourDF <- subset(fourDF, fourDF$count > 1)#
+fourDF <- fourDF[order(-fourDF$count),]#
+#
+# THREE THREE THREE THREE THREE THREE THREE#
+#
+threeDF <- as.data.frame(threeGT, stringsAsFactors=FALSE)#
+names(threeDF) <- c("words", "count")#
+threeDF <- subset(threeDF, threeDF$count > 1)#
+threeDF <- threeDF[order(-threeDF$count),]#
+#
+# TWO TWO TWO TWO TWO TWO TWO TWO TWO TWO TWO#
+#
+twoDF <- as.data.frame(twoGT, stringsAsFactors=FALSE)#
+names(twoDF) <- c("words", "count")#
+twoDF <- subset(twoDF, twoDF$count > 1)#
+twoDF <- twoDF[-c(grep("^a ", twoDF$words)),]#
+twoDF <- twoDF[order(-twoDF$count),]#
+#
+write.table(fiveDF, file="fiveGrams")#
+write.table(fourDF, file="fourGrams")#
+write.table(threeDF, file="threeGrams")#
+write.table(twoDF, file="twoGrams")
+list.files()
+rm(list=ls())
+ls()
+setwd("/Users/frankCorrigan/Desktop/en_US/")#
+#
+# read news file#
+newsfile <- "en_US.news.txt"#
+# lineCount <- length(readLines(newsfile))#
+lineCount <- 1010242#
+con <- file(newsfile, "r")#
+news <- readLines(con, lineCount*0.2)#
+close(con)
+blogsfile <- "en_US.blogs.txt"#
+# lineCount <- length(readLines(blogsfile))#
+lineCount <- 899288#
+con <- file(blogsfile, "r")#
+blogs <- readLines(con, lineCount*0.2)#
+close(con)
+twitterfile <- "en_US.twitter.txt"#
+# lineCount <- length(readLines(twitterfile))#
+lineCount <- 2360148#
+con <- file(twitterfile, "r")#
+tweets <- readLines(con, lineCount*0.2)#
+close(con)
+setwd("/Users/frankCorrigan/Datasciencecoursera/Text_Prediction_App/")
+allLines <- c(news, blogs, tweets)
+head(allLines)
+length(allLines)
+length(tweets)
+length(news)
+length(blogs)
+1000000+1000000+2300000
+total <- 1000000+1000000+2300000
+total * .2
+rm(total)
+ls()
+rm(blogs)
+rm(blogsfile)
+rm(con)
+rm(lineCount)
+rm(news)
+rm(newsfile, tweets, twitterfile)
+ls()
+allLines <- gsub("[[:digit:]]", "", allLines)#
+allLines <- gsub("([[:punct:]])", "", tolower(allLines))#
+#
+# helper function to split a string by space and convert to character from list#
+splitUnlist <- function(text){#
+      return (unlist(strsplit(text, " ")))#
+}
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+allLines <- trim(allLines)
+for (i in 1:length(allLines)) {#
+      su <- splitUnlist(allLines[i])#
+      su <- su[su != ""]#
+      allLines[i] <- paste(su, collapse = " ")#
+}
+library(stylo)
+ls()
+rm(i, su)
+ls()
+rm(trim)
+ls()
+allWords <- unlist(strsplit(allLines, " "))
+head(allWords)
+rm(allLines)
+ls()
+fiveGrams <- make.ngrams(allWords, 5)
+head(fiveGrams)
+tail(fiveGrams)
+fiveGT <- table(fiveGrams)
+head(fiveGT)
+rm(fiveGrams)
+fiveDF <- as.data.frame(fiveGT, stringsAsFactors=FALSE)
+names(fiveDF) <- c("words", "count")
+ls()
+rm(fiveGT)
+ls()
+fiveDF <- subset(fiveDF, fiveDF$count > 1)
+fiveDF <- fiveDF[order(-fiveDF$count),]
+head(fiveDF)
+tail(fiveDF)
+nrow(fiveDF)
+ls()
+write.table(fiveDF, file="fiveGrams")
+ls()
+rm(fiveDF)
+fourGrams <- make.ngrams(allWords, 4)
+fourGT <- table(fourGrams)
+ls()
+rm(fourGrams)
+fourDF <- as.data.frame(fourGT, stringsAsFactors=FALSE)#
+names(fourDF) <- c("words", "count")#
+fourDF <- subset(fourDF, fourDF$count > 1)#
+fourDF <- fourDF[order(-fourDF$count),]
+ls()
+rm(fourGT)
+ls()
+write.table(fourDF, file="fourGrams")
+ls()
+rm(fourDF)
+ls()
+threeGrams <- make.ngrams(allWords, 3)
+ls()
+threeGT <- table(threeGrams)
+ls()
+rm(threeGrams)
+threeDF <- as.data.frame(threeGT, stringsAsFactors=FALSE)#
+names(threeDF) <- c("words", "count")#
+threeDF <- subset(threeDF, threeDF$count > 1)#
+threeDF <- threeDF[order(-threeDF$count),]
+write.table(threeDF, file="threeGrams")
+ls()
+rm(threeDF)
+rm(threeGT)
+twoGrams <- make.ngrams(allWords, 2)
+twoGT <- table(twoGrams)
+ls()
+rm(twoGrams)
+twoDF <- as.data.frame(twoGT, stringsAsFactors=FALSE)#
+names(twoDF) <- c("words", "count")#
+twoDF <- subset(twoDF, twoDF$count > 1)#
+twoDF <- twoDF[-c(grep("^a ", twoDF$words)),]#
+twoDF <- twoDF[order(-twoDF$count),]
+write.table(twoDF, file="twoGrams")
+nrow(twoDF)
+head(twoDF)
+getwd()
+list.files()
+ls()
+rm(twoDF)
+ls()
+rm(list=ls())
+ls)_
+ls()
+library(shiny)
+runApp()
