@@ -6,57 +6,57 @@ date: Decemeber 2014
 Demonstration
 ========================================================
 
-Page to show app... use iframe if possible in rpres
-
-For more details on authoring R presentations click the
-**Help** button on the toolbar.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
+<iframe style="height:500px" src="https://frankruns.shinyapps.io/Text_Prediction_App/"></iframe> 
 
 High Level
 ========================================================
 
-Talk about steps algorithm takes to predict.
+Here's how it works in plain English...
 
-Begin with large chunk of text -- tweets, blogs, news.
-Clean up so we are focused only on the words -- remove punctuation, numbers, whitespace.
-Create ngrams --- 5's, 4's, 3's, 2's and frequency of ngrams
-Combine ngrams into dataframe in decsending order
-Write to file to be read and used by shiny app
+- Start with a corpus (collection of text)
+- Remove punctuation, numbers, capital, and whitespace from that text
+- Create n-grams (distinct n-word phrases) and count how frequently they occur
+      - For instance "you are my best" is a 4-gram that probably occurs dozens of times
+- Store n-grams in a searchable format and pass to Shiny app
 
-```{r}
-summary(cars)
-```
+So, user types "you are my" and the app searches the database for the most frequent 4-gram that starts with "you are my" and passes back the fourth word in that phrase... perhaps "best".
 
-Example
+Now With Some Code
 ========================================================
 
-tiny corpus
-clean it 
-make ngrams
-table
-to data.table
-search for phrase and take most common
-
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+tinyCorpus <- c("you are my best friend and I will love you forever", "It is possible that you are my... dog", "According to Twitter analytics you are my best fan")
+# Remove punctuation, change capitals to lowers, and transform lines to long list of words
+tinyCorpus <- gsub("([[:punct:]])", "", tolower(tinyCorpus))
+allWords <- unlist(strsplit(tinyCorpus, " "))
+# create 4-grams and count frequency of those 4-grams
+library(stylo)
+ngrams <- make.ngrams(allWords, 4)
+count <- as.data.frame(table(ngrams))
+count <- count[order(count),]
+# now search for "you are my "
+count[grep("^you are my", count$ngrams),]
 ```
 
 Room for Improvement
 ========================================================
-Speed
-swearwords
-Additional Features
-      POS recognition
-      Language recognition
-      Add punctuation and emoticon prediction
-      question answering (liek siri)
-      practical application (perhaps into a simple word processor)
+
+NextWords is OK, but it could be much better...
+
+- Increase speed with more concise code
+- Increase accuracy with larger, more diverse corpus
+- Add functionality
+      - Remove swearwords (if that's deemed necessary)
+      - Part of speech recognition
+      - Language recognition
+      - Punctuation and emoticon prediction
+      - Question answering (similar to Siri)
+      - Store and learn from user input (like your smartphone)
+- Improve 'error' handling where user inputs incorrect spelling or 'unknown' word
       
 Summary
 ========================================================
-App is good at predicting next word(s)
-Speed and functionality can be improved
-App provides solid foundation for creating practical application
+
+- App is <em>good</em> at predicting next word(s)
+- Speed and functionality can be improved
+- App provides solid foundation for creating practical application
