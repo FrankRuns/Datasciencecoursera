@@ -1,12 +1,14 @@
-NextWords
+NextWords: for Text Prediction
 ========================================================
-author: Frank Corrigan
+author: FC
 date: Decemeber 2014
+width: 1440
+height: 900
 
 Demonstration
 ========================================================
 
-<iframe style="height:500px" src="https://frankruns.shinyapps.io/Text_Prediction_App/"></iframe> 
+<iframe width="1440" height="808" src="https://frankruns.shinyapps.io/Text_Prediction_App/"></iframe>
 
 High Level
 ========================================================
@@ -21,28 +23,32 @@ Here's how it works in plain English...
 
 So, user types "you are my" and the app searches the database for the most frequent 4-gram that starts with "you are my" and passes back the fourth word in that phrase... perhaps "best".
 
-Now With Some Code
+Now With Some Code: Tiny Example
 ========================================================
 
 
 ```r
-tinyCorpus <- c("you are my best friend and I will love you forever", "It is possible that you are my... dog", "According to Twitter analytics you are my best fan")
+# build a tiny corpus
+tinyCorpus <- c("you are my best friend", "It's possible you are my... dog", "says you are my best fan")
+
 # Remove punctuation, change capitals to lowers, and transform lines to long list of words
 tinyCorpus <- gsub("([[:punct:]])", "", tolower(tinyCorpus))
 allWords <- unlist(strsplit(tinyCorpus, " "))
+
 # create 4-grams and count frequency of those 4-grams
 library(stylo)
 ngrams <- make.ngrams(allWords, 4)
 count <- as.data.frame(table(ngrams))
 count <- count[order(count),]
-# now search for "you are my "
+
+# now search for "you are my " to see that "best" is the most likely next word
 count[grep("^you are my", count$ngrams),]
 ```
 
 ```
             ngrams Freq
-22 you are my best    2
-23  you are my dog    1
+12 you are my best    2
+13  you are my dog    1
 ```
 
 Room for Improvement
@@ -64,6 +70,15 @@ NextWords is OK, but it could be much better...
 Summary
 ========================================================
 
-- App is <em>good</em> at predicting next word(s)
-- Speed and functionality can be improved
-- App provides solid foundation for creating practical application
+NextWords is a project created for the Data Science Capstone course offered by Johns Hopkins University via Coursera. Overall, the app...  
+
+- Is <em>good</em> at predicting next word(s)
+- Should be faster and it should have additional functionality
+      - As with all projects, lifting time/monetary constraints would help to acheive those ends
+- Provides solid foundation for creating practical application
+
+The app itself lives <a href="https://frankruns.shinyapps.io/Text_Prediction_App/">here</a>,
+The code for the app lives <a href="https://github.com/FrankRuns/Datasciencecoursera/tree/master/Text_Prediction_App">here</a>,
+and the code for this deck lives <a href="https://github.com/FrankRuns/Datasciencecoursera/tree/master/Text_Prediction_Deck">here</a>.
+
+Thanks for reading!
